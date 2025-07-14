@@ -1,3 +1,3 @@
 add_executable(Game main.cpp)
 
-target_link_libraries(Game PRIVATE Core)
+target_link_libraries(Game PRIVATE Engine)

@@ -3,6 +3,10 @@
 #pragma once
 
 #include <core/Window.h>
+#include <memory>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>  
+#include <iostream>
 
 namespace Core {
 class Game
@@ -12,12 +16,12 @@ class Game
 		~Game();
 
 		bool Initialize();
-		bool Run();
-		bool Shutdown();
+		void Run();
+		void Shutdown();
 
 	private:
 		bool m_isRunning;
-		//Window m_window;
+		std::unique_ptr<Window> m_window;
 };
 }
 #endif
