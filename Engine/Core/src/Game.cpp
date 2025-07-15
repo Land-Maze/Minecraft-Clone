@@ -5,18 +5,15 @@ Core::Game::Game() : m_isRunning(false){
 	std::cout << "[Core::Game] Game instance created." << std::endl;
 }
 
-Core::Game::~Game(){}
-
 bool Core::Game::Initialize() {
-	if (!glfwInit()) {
-		std::cerr << "Failed to initialize GLFW\n";
-		return false;
-	}
-
+	m_input = std::make_shared<Core::Input>();
 	m_window = std::make_unique<Core::Window>();
+	
 	if (!m_window->Initialize()) {
 		return false;
 	}
+
+	m_window->SetInput(m_input);
 
 	glfwMakeContextCurrent(m_window->GetWindowHandle());
 
@@ -39,23 +36,17 @@ void Core::Game::Shutdown() {
 }
 
 void Core::Game::Run() {
+    while (!m_window->ShouldClose() && m_isRunning) {
+        m_window->PollEvents();
 
-	if(m_window == nullptr) {
-		return;
-	}
-	
-	auto windowHandle = m_window->GetWindowHandle();
+		// NOTE: This is just for test, I will delete it when I will introduce Camera class
+        if (m_input->IsKeyPressed(GLFW_KEY_W)) {
+            std::cout << "W" << std::endl;
+        }
+        if (m_input->IsMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+            std::cout << "Left mouse" << std::endl;
+        }
 
-	while (!glfwWindowShouldClose(windowHandle) && m_isRunning) {
-
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-
-		glfwSwapBuffers(m_window->GetWindowHandle());
-		glfwPollEvents();
-	}
-
-	m_isRunning = false;
-	glfwTerminate();
+        m_window->SwapBuffers();
+    }
 }

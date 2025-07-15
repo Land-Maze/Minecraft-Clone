@@ -9,11 +9,11 @@
 #include <iostream>
 
 namespace Core {
-class Game
-{
+	class Game
+	{
 	public:
 		Game();
-		~Game();
+		~Game() = default;
 
 		bool Initialize();
 		void Run();
@@ -22,6 +22,7 @@ class Game
 	private:
 		bool m_isRunning;
 		std::unique_ptr<Window> m_window;
+		std::shared_ptr<Input> m_input;
+	};
 };
-}
 #endif

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <Core/Game.h>
 
 int main(int argc, char* argv[]) {
