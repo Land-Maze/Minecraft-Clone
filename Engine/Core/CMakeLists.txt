@@ -5,5 +5,5 @@ add_library(Core STATIC ${CORE_SOURCES} ${CORE_HEADERS})
 
 target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(Core PUBLIC glfw glad glm Render)
+target_link_libraries(Core PUBLIC glfw glad glm Render Utils)
 enable_edit_and_continue(Core)

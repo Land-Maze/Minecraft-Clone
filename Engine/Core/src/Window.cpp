@@ -1,7 +1,4 @@
 #include <Core/Window.h>
-#include <GLFW/glfw3.h>
-
-#include <iostream>
 
 static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (auto* input = static_cast<Core::Input*>(glfwGetWindowUserPointer(window))) {
@@ -21,9 +18,7 @@ static void MousePositionCallback(GLFWwindow* window, double xpos, double ypos) 
 	}
 }
 
-Core::Window::Window() : m_width(800), m_height(600), m_title("Default Window"), m_isVisible(false), m_windowHandle(nullptr), m_isMouseUnlocked(false) {
-	std::cout << "[Core::Window] Window instance created." << std::endl;
-}
+Core::Window::Window() : m_width(800), m_height(600), m_title("Default Window"), m_isVisible(false), m_windowHandle(nullptr), m_isMouseUnlocked(false) {}
 
 Core::Window::~Window() {
 	Shutdown();
@@ -31,18 +26,19 @@ Core::Window::~Window() {
 
 bool Core::Window::Initialize() {
 	if (!glfwInit()) {
-		std::cerr << "[Core::Window] Failed to initialize GLFW\n";
 		return false;
 	}
 
 	m_windowHandle = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr);
 	if (m_windowHandle == NULL) {
-		std::cout << "[Core::Window] Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return false;
 	}
 
-	std::cout << "[Core::Window] Window initialized successfully." << std::endl;
+	glfwSetInputMode(m_windowHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	glfwSwapInterval(1);
+
 	m_isVisible = true;
 	return true;
 }
@@ -115,4 +111,8 @@ void Core::Window::SwapBuffers() {
 	if (m_windowHandle) {
 		glfwSwapBuffers(m_windowHandle);
 	}
+}
+
+void Core::Window::GetWindowSize(int& width, int& height) const {
+	glfwGetWindowSize(m_windowHandle, &width, &height);
 }

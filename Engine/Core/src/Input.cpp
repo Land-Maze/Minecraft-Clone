@@ -1,10 +1,11 @@
-#include <core/Input.h>
+#include <Core/Input.h>
 
 Core::Input::Input() {
     m_keys.fill(false);
     m_mouseButtons.fill(false);
     m_mousePos = glm::vec2(0.0f);
     m_lastMousePos = glm::vec2(0.0f);
+    m_mouseDelta = glm::vec2(0.0f);
 }
 
 bool Core::Input::IsKeyPressed(int key) const {
@@ -48,6 +49,18 @@ void Core::Input::MouseButtonCallback(GLFWwindow* window, int button, int action
 }
 
 void Core::Input::MousePositionCallback(GLFWwindow* window, double xpos, double ypos) {
-    m_lastMousePos = m_mousePos;
+    // This prevents camera flickering at the start of execution
+    if (m_lastMousePos.x != 0.0 || m_lastMousePos.y != 0.0)
+        m_lastMousePos = m_mousePos;
+    else
+        m_lastMousePos = glm::vec2(static_cast<float>(xpos), static_cast<float>(ypos));
+    
     m_mousePos = glm::vec2(static_cast<float>(xpos), static_cast<float>(ypos));
+}
+
+void Core::Input::Update() {
+    if (m_mousePos == m_lastMousePos) {
+        m_mouseDelta = glm::vec2(0.0f);
+    }
+    m_lastMousePos = m_mousePos;
 }

@@ -1,12 +1,15 @@
-#ifndef WINDOW_H  
-#define WINDOW_H  
-#pragma once  
+#ifndef WINDOW_H
+#define WINDOW_H
+#pragma once
 
-#include <string>  
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "Input.h"
+
+#include <string>
 #include <memory>
+#include <iostream>
+
+#include <Core/Input.h>
 
 namespace Core {
 	class Window {
@@ -27,6 +30,7 @@ namespace Core {
 		const std::string& GetTitle() const;
 		bool IsVisible() const;
 		GLFWwindow* GetWindowHandle() const;
+		void GetWindowSize(int& width, int& height) const;
 
 		bool ShouldClose() const;
 		void PollEvents();
@@ -40,7 +44,7 @@ namespace Core {
 		int m_width;
 		int m_height;
 		bool m_isVisible;
-		bool m_isMouseUnlocked; // This is when user wants to press on UI elements
+		bool m_isMouseUnlocked;
 		GLFWwindow* m_windowHandle;
 		std::shared_ptr<Input> m_input;
 	};
